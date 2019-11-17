@@ -1,0 +1,30 @@
+# config/packages/security.yaml
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+    access_control:
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+                # if you're using multiple entity managers
+                # manager_name: customer
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+
+
